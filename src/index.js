@@ -2,28 +2,38 @@ function toReadable (number) {
 
     let strNumber = number.toString();
     let arrNumber = strNumber.split("");
-    let n = arrNumber.length-1;
+    let arrLength = arrNumber.length-1;
     let result = "";
 
     for(let i=0; i<arrNumber.length; i++){
-        
-        if(n == 1) {
-            result = result + " " + numberInWords(Number(arrNumber[i])*10);
-
-        if(arrNumber[arrNumber.length-1] == 0 ){
-            break;
-        }    
-
-
-        if(n == 0) {
-            result = result + " " + numberInWords(Number(arrNumber[i]));
-        } 
-    
-        } else {
-            result = result + " " + numberInWords(Number(arrNumber[i]));
-            result = result + " " + numberInWords(Math.pow(10, n));
+        if(i != 0 && arrNumber[i] != 0) {
+            result = result + " ";
         }
-        n--;
+        if(arrNumber[i] == 0){
+            if(arrNumber.length-1 == 0){
+                result = result + numberInWords(Number(arrNumber[i]));
+            }
+            arrLength--;
+            continue;
+        }
+        
+        if(arrLength == 0) {
+            result = result + numberInWords(Number(arrNumber[i]));
+        } else {
+            if(arrLength == 1) {
+                if(arrNumber[i] == 1 ){
+                    result = result + numberInWords(Number(arrNumber[i]+arrNumber[i+1]));
+                    break;
+                } else {
+                    result = result + numberInWords(Number(arrNumber[i])*10);
+
+                }   
+            } else {
+                result = result + numberInWords(Number(arrNumber[i]));
+                result = result + " " + numberInWords(Math.pow(10, arrLength));
+            }
+            arrLength--;
+        }
     }
 
     return result;
@@ -40,7 +50,7 @@ function toReadable (number) {
             case 3: 
                 return "three";
             case 4: 
-                return "for";
+                return "four";
             case 5: 
                 return "five";
             case 6: 
@@ -97,4 +107,4 @@ function toReadable (number) {
     
 module.exports = toReadable;
 
-console.log(toReadable(997));
+console.log(toReadable(6008));
